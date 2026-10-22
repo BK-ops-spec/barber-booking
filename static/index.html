@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sons of Detroit — Book an Appointment</title>
+<meta name="description" content="Book a haircut, beard sculpt or hot towel shave at Sons of Detroit. Real-time availability, instant confirmation.">
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c9a45c'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-size='19' font-weight='700' text-anchor='middle' fill='%2317130a'%3ES%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-mark">S</span>
+      <span class="brand-text">
+        <b id="shop-name">Sons of Detroit</b>
+        <span>Barbershop</span>
+      </span>
+    </a>
+    <nav class="header-nav">
+      <a href="#services" class="nav-hide-sm">Services</a>
+      <a href="#team" class="nav-hide-sm">The Crew</a>
+      <a href="#manage">My Booking</a>
+      <a href="#book">Book</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Walk-ins welcome · Book online</span>
+    <h1>A proper cut,<br><em>done right.</em></h1>
+    <p id="hero-tagline">Classic cuts, modern craft. Pick your service, choose your barber, and take the chair when it suits you.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#book">Book an appointment</a>
+      <a class="btn btn-ghost" href="#services">See the menu</a>
+    </div>
+    <div class="hero-meta">
+      <span class="chip">📍 <b id="shop-address">412 Rivington Ave, Brooklyn, NY</b></span>
+      <span class="chip">🕘 <b id="shop-hours">09:00 – 19:00</b></span>
+      <span class="chip">📞 <b id="shop-phone">(555) 018-2233</b></span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="book">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Book your chair</h2>
+        <p>Availability updates in real time. Your slot is held the moment you confirm.</p>
+      </div>
+    </div>
+
+    <div class="booking" id="booking">
+      <div class="booking-steps" id="steps">
+        <button class="step-tab active" data-step="1"><span class="step-num">1</span><span class="step-label"><b>Service</b><span>What are we doing?</span></span></button>
+        <button class="step-tab" data-step="2" disabled><span class="step-num">2</span><span class="step-label"><b>Barber</b><span>Who cuts your hair</span></span></button>
+        <button class="step-tab" data-step="3" disabled><span class="step-num">3</span><span class="step-label"><b>Time</b><span>Pick a slot</span></span></button>
+        <button class="step-tab" data-step="4" disabled><span class="step-num">4</span><span class="step-label"><b>Details</b><span>Confirm booking</span></span></button>
+      </div>
+
+      <div class="booking-body">
+        <div id="step-panel"></div>
+      </div>
+
+      <div class="booking-foot">
+        <div class="summary" id="foot-summary">Select a service to begin.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-ghost" id="btn-back" disabled>Back</button>
+          <button class="btn btn-primary" id="btn-next" type="submit" form="details-form" disabled>Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>The menu</h2>
+        <p>Every service includes a consultation and a finish.</p>
+      </div>
+    </div>
+    <div class="grid-3" id="services-grid"></div>
+  </div>
+</section>
+
+<section class="section" id="team">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>The crew</h2>
+        <p>Book the barber you trust, or let us match you with whoever is free.</p>
+      </div>
+    </div>
+    <div class="grid-3" id="team-grid"></div>
+  </div>
+</section>
+
+<section class="section" id="manage">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Manage a booking</h2>
+        <p>Lost your confirmation code? Look it up with the phone number you booked with.</p>
+      </div>
+    </div>
+    <div class="card lookup">
+      <form class="lookup-row" id="lookup-form">
+        <div class="field">
+          <label for="lookup-code">Confirmation code</label>
+          <input class="input" id="lookup-code" name="code" placeholder="ABC123" autocomplete="off" maxlength="8" style="text-transform:uppercase">
+        </div>
+        <div class="field">
+          <label for="lookup-phone">Phone number</label>
+          <input class="input" id="lookup-phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel">
+        </div>
+        <button class="btn btn-ghost" type="submit">Find booking</button>
+      </form>
+      <div id="lookup-result"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> <span id="footer-shop">Sons of Detroit</span> · All rights reserved</span>
+    <span><a href="/admin">Staff portal</a></span>
+  </div>
+</footer>
+
+<div class="toast-stack" id="toasts"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

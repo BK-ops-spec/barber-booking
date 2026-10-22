@@ -1,0 +1,35 @@
+# Caddy configuration for the barber shop booking app.
+#
+# Caddy provisions and renews a Let's Encrypt certificate automatically, so you
+# only need a real domain with an A/AAAA record pointing at this machine and
+# ports 80 + 443 open in the firewall.
+#
+#   sudo cp deploy/Caddyfile /etc/caddy/Caddyfile
+#   sudo caddy validate --config /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+#
+# The app itself stays on plain HTTP on localhost; only Caddy speaks TLS.
+
+booking.example.com {
+	encode zstd gzip
+
+	# HSTS is sent by the app, but the proxy can also set it for static assets.
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+	}
+
+	reverse_proxy 127.0.0.1:8000 {
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
+
+	log {
+		output file /var/log/caddy/barber-booking.log
+		format json
+	}
+}
+
+# Plain HTTP is redirected to HTTPS automatically by Caddy.
+# For the Let's Encrypt HTTP-01 challenge to work, port 80 must be reachable
+# from the internet and this machine must hold the domain's DNS record.

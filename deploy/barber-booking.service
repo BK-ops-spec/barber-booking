@@ -1,0 +1,36 @@
+[Unit]
+Description=Barber Shop Booking App
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=barber
+Group=barber
+WorkingDirectory=/opt/barber-booking
+ExecStart=/usr/bin/python3 /opt/barber-booking/run.py 127.0.0.1 8000
+Restart=always
+RestartSec=3
+
+# Keep the database outside the release directory so upgrades do not lose it.
+Environment=BARBER_DATA_DIR=/var/lib/barber-booking
+Environment=PYTHONUNBUFFERED=1
+
+# Lock the process down: it only needs to read its own code and write the
+# database directory.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+ReadWritePaths=/var/lib/barber-booking
+
+[Install]
+WantedBy=multi-user.target

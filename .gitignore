@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+node_modules/
+package-lock.json
+data/
+*.db
+*.db-wal
+*.db-shm
+certs/
+*.crt
+*.key
+.DS_Store

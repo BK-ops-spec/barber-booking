@@ -1,0 +1,1 @@
+# No runtime dependencies — the app uses only the Python 3.11+ standard library.

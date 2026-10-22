@@ -1,0 +1,23 @@
+[Unit]
+Description=Barber Shop Booking App with public HTTPS tunnel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/barber-booking
+ExecStart=%h/barber-booking/deploy/start-tunnel.sh
+Restart=always
+RestartSec=5
+Environment=PORT=8000
+Environment=CLOUDFLARED_BIN=%h/.local/bin/cloudflared
+
+# No root, no elevated capabilities - this only needs outbound network access.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/state/barber-booking %h/barber-booking/data
+
+[Install]
+WantedBy=default.target

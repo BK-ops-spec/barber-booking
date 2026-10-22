@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff Portal — Sons of Detroit</title>
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c9a45c'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-size='19' font-weight='700' text-anchor='middle' fill='%2317130a'%3ES%3C/text%3E%3C/svg%3E">
+</head>
+<body class="admin-body">
+
+<div class="login-screen hidden" id="login-screen">
+  <form class="login-card" id="login-form">
+    <div class="brand">
+      <span class="brand-mark">S</span>
+      <span class="brand-text" style="text-align:left">
+        <b>Sons of Detroit</b>
+        <span>Staff portal</span>
+      </span>
+    </div>
+    <h1>Welcome back</h1>
+    <p>Sign in to manage the book.</p>
+    <div class="field" style="margin-bottom:14px">
+      <label for="login-user">Username</label>
+      <input class="input" id="login-user" name="username" autocomplete="username" required>
+    </div>
+    <div class="field" style="margin-bottom:18px">
+      <label for="login-pass">Password</label>
+      <input class="input" id="login-pass" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <div class="alert alert-error hidden" id="login-error" style="margin-bottom:16px"></div>
+    <button class="btn btn-primary btn-block" type="submit" id="login-btn">Sign in</button>
+  </form>
+</div>
+
+<div class="admin-shell hidden" id="admin-shell">
+  <aside class="admin-side">
+    <div class="brand">
+      <span class="brand-mark">S</span>
+      <span class="brand-text">
+        <b>Sons of Detroit</b>
+        <span>Staff portal</span>
+      </span>
+    </div>
+    <a class="nav-item active" data-view="schedule">Schedule</a>
+    <a class="nav-item" data-view="services">Services</a>
+    <a class="nav-item" data-view="barbers">Barbers</a>
+    <a class="nav-item" data-view="hours">Hours</a>
+    <a class="nav-item" data-view="settings">Settings</a>
+    <div style="margin-top:auto;padding-top:18px">
+      <div class="muted" style="font-size:12px;margin-bottom:8px">Signed in as <b id="admin-user">admin</b></div>
+      <button class="btn btn-ghost btn-sm btn-block" id="logout-btn">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <section id="view-schedule">
+      <div class="admin-head">
+        <div>
+          <h1>Schedule</h1>
+          <p id="schedule-subtitle">Today's book</p>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" id="today-btn">Today</button>
+          <button class="btn btn-ghost btn-sm" id="prev-day">← Prev</button>
+          <input class="input" type="date" id="schedule-date" style="width:auto">
+          <button class="btn btn-ghost btn-sm" id="next-day">Next →</button>
+          <button class="btn btn-primary btn-sm" id="new-appointment">+ New booking</button>
+        </div>
+      </div>
+
+      <div class="stat-grid" id="stat-grid"></div>
+
+      <div class="panel" style="margin-bottom:18px">
+        <div class="panel-head">
+          <h3>Appointments</h3>
+          <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+            <select class="select" id="filter-staff" style="width:auto;min-width:150px"></select>
+            <select class="select" id="filter-status" style="width:auto;min-width:130px">
+              <option value="">All statuses</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="completed">Completed</option>
+              <option value="no_show">No show</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <input class="input" id="filter-search" placeholder="Search name, phone, code" style="width:auto;min-width:180px">
+          </div>
+        </div>
+        <div id="appointment-list"></div>
+      </div>
+    </section>
+
+    <section id="view-services" class="hidden">
+      <div class="admin-head">
+        <div>
+          <h1>Services</h1>
+          <p>Pricing, duration and what's on the menu</p>
+        </div>
+        <button class="btn btn-primary btn-sm" id="new-service">+ New service</button>
+      </div>
+      <div class="panel">
+        <div id="service-list"></div>
+      </div>
+    </section>
+
+    <section id="view-barbers" class="hidden">
+      <div class="admin-head">
+        <div>
+          <h1>Barbers</h1>
+          <p>Who works here and what they specialise in</p>
+        </div>
+        <button class="btn btn-primary btn-sm" id="new-staff">+ New barber</button>
+      </div>
+      <div class="col-barbers" id="barber-list"></div>
+    </section>
+
+    <section id="view-hours" class="hidden">
+      <div class="admin-head">
+        <div>
+          <h1>Opening hours</h1>
+          <p>Shop hours and per-barber schedules</p>
+        </div>
+        <button class="btn btn-primary btn-sm" id="save-hours">Save hours</button>
+      </div>
+      <div class="panel" style="margin-bottom:18px">
+        <div class="panel-head"><h3>Shop hours</h3></div>
+        <div class="panel-body"><div class="hours-editor" id="shop-hours"></div></div>
+      </div>
+      <div id="staff-hours-panels"></div>
+    </section>
+
+    <section id="view-settings" class="hidden">
+      <div class="admin-head">
+        <div>
+          <h1>Settings</h1>
+          <p>Shop details and booking rules</p>
+        </div>
+        <button class="btn btn-primary btn-sm" id="save-settings">Save settings</button>
+      </div>
+      <div class="panel" style="margin-bottom:18px">
+        <div class="panel-head"><h3>Shop details</h3></div>
+        <div class="panel-body">
+          <div class="form-grid">
+            <div class="field"><label for="s-name">Shop name</label><input class="input" id="s-name"></div>
+            <div class="field"><label for="s-tagline">Tagline</label><input class="input" id="s-tagline"></div>
+            <div class="field"><label for="s-phone">Phone</label><input class="input" id="s-phone"></div>
+            <div class="field"><label for="s-address">Address</label><input class="input" id="s-address"></div>
+            <div class="field"><label for="s-timezone">Timezone</label><input class="input" id="s-timezone" placeholder="America/New_York"></div>
+            <div class="field"><label for="s-currency">Currency</label><input class="input" id="s-currency" placeholder="USD"></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="margin-bottom:18px">
+        <div class="panel-head"><h3>Booking rules</h3></div>
+        <div class="panel-body">
+          <div class="form-grid">
+            <div class="field"><label for="s-lead">Minimum notice (minutes)</label><input class="input" id="s-lead" type="number" min="0"></div>
+            <div class="field"><label for="s-advance">Booking window (days ahead)</label><input class="input" id="s-advance" type="number" min="1"></div>
+            <div class="field"><label for="s-slot">Slot length (minutes)</label><input class="input" id="s-slot" type="number" min="5"></div>
+            <div class="field">
+              <label for="s-anystaff">Any barber option</label>
+              <select class="select" id="s-anystaff">
+                <option value="1">Enabled</option>
+                <option value="0">Disabled</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Closures</h3>
+          <div style="display:flex;gap:9px">
+            <input class="input" type="date" id="closure-date" style="width:auto">
+            <input class="input" id="closure-reason" placeholder="Reason" style="width:170px">
+            <button class="btn btn-ghost btn-sm" id="add-closure">Add closure</button>
+          </div>
+        </div>
+        <div id="closure-list"></div>
+      </div>
+      <div class="panel" style="margin-top:18px">
+        <div class="panel-head"><h3>Password</h3></div>
+        <div class="panel-body">
+          <div class="form-grid">
+            <div class="field"><label for="p-current">Current password</label><input class="input" id="p-current" type="password"></div>
+            <div class="field"><label for="p-new">New password</label><input class="input" id="p-new" type="password"></div>
+            <div class="field" style="justify-content:flex-end"><button class="btn btn-ghost" id="change-password">Update password</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop hidden" id="modal">
+  <div class="modal" id="modal-card"></div>
+</div>
+
+<div class="toast-stack" id="toasts"></div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
